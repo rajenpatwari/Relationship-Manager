@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relationship Manager - OnePaper Research Analysts</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Using Inter for body text and Montserrat for headings for a professional feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables for consistent theming */
+        :root {
+            --primary-dark-blue: #0A1E46;
+            --secondary-gold: #FFD700;
+            --light-bg-gradient: linear-gradient(160deg, #F5F7FA 0%, #FFFFFF 100%); /* Softer light background */
+            --text-dark: #334257; /* Slightly softer dark text */
+            --text-light: #ECF0F1;
+            --border-subtle: #E6EDF5; /* Softer border color */
+            --gradient-body: linear-gradient(135deg, #0D265C 0%, #061A3D 100%); /* Slightly richer dark gradient */
+            --gradient-header: linear-gradient(115deg, #0F2D6B 0%, #041B42 100%); /* Richer header gradient */
+            --shadow-soft: 0 5px 15px rgba(0, 0, 0, 0.08); /* Softer shadows */
+            --shadow-medium: 0 10px 30px rgba(0, 0, 0, 0.12);
+            --shadow-strong: 0 20px 50px rgba(0, 0, 0, 0.25);
+            --transition-duration: 0.5s;
+            --transition-timing: ease-in-out; /* Standard ease-in-out */
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif; /* Professional default font */
+        }
+        
+        body {
+            background: var(--gradient-body);
+            color: var(--text-dark);
+            padding: 20px; /* Consistent overall padding */
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to top for longer pages */
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+        
+        .container {
+            max-width: 1200px; /* Slightly wider for professional content presentation */
+            width: 100%;
+            background: white;
+            border-radius: 20px; /* Professional rounded corners */
+            overflow: hidden;
+            box-shadow: var(--shadow-strong);
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 1s var(--transition-timing) forwards; /* Simple fade in */
+        }
+        
+        /* Header Banner (Hero Section) Styles */
+        .header-banner {
+            background: var(--gradient-header);
+            padding: 80px 40px; /* Generous padding for hero feel */
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 8px solid var(--secondary-gold); /* Strong separator */
+            animation: slideInDown 1s var(--transition-timing) forwards; /* Slide down animation */
+            opacity: 0;
+        }
+        
+        .header-banner::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+            opacity: 0.1; /* Subtle background */
+            filter: grayscale(100%) brightness(0.8);
+        }
+        
+        .logo-section {
+            margin-bottom: 30px;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .logo {
+            color: white;
+            font-family: 'Montserrat', sans-serif; /* Professional font for logo */
+            font-size: 72px; /* Large but not overwhelming */
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            transition: transform var(--transition-duration) var(--transition-timing);
+            display: inline-block;
+        }
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .tagline {
+            color: var(--secondary-gold);
+            font-size: 26px; /* Professional size */
+            font-weight: 600;
+            background: rgba(10, 30, 70, 0.8); /* Refined opacity */
+            display: inline-block;
+            padding: 15px 45px;
+            border-radius: 35px;
+            margin-top: 20px;
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            z-index: 2;
+            position: relative;
+            box-shadow: var(--shadow-soft);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+        
+        .position-badge {
+            background: var(--secondary-gold);
+            color: var(--primary-dark-blue);
+            padding: 22px 60px;
+            font-weight: 700;
+            font-size: 38px;
+            text-align: center;
+            margin-top: 50px;
+            border-radius: 15px;
+            display: inline-block;
+            box-shadow: var(--shadow-medium);
+            z-index: 2;
+            position: relative;
+            border: 3px solid rgba(255, 255, 255, 0.7);
+            transition: all var(--transition-duration) var(--transition-timing);
+        }
+        .position-badge:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+        }
+        
+        /* Main Content and Section Styles */
+        .main-content {
+            padding: 60px; /* Ample padding */
+            background-color: #fcfcfc;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section {
+            margin-bottom: 80px; /* Good spacing between sections */
+            padding: 40px; /* Internal section padding */
+            position: relative;
+            background: var(--light-bg-gradient);
+            border-radius: 20px;
+            box-shadow: var(--shadow-soft);
+            transition: transform 0.6s var(--transition-timing), box-shadow 0.6s var(--transition-timing);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s var(--transition-timing) forwards; /* Simple fade-in animation for sections */
+        }
+        /* Sequential animation delays for sections */
+        .section:nth-of-type(1) { animation-delay: 0.2s; }
+        .section:nth-of-type(2) { animation-delay: 0.4s; }
+        .section:nth-of-type(3) { animation-delay: 0.6s; }
+        .section:nth-of-type(4) { animation-delay: 0.8s; }
+        .section:nth-of-type(5) { animation-delay: 1.0s; }
+        .section:nth-of-type(6) { animation-delay: 1.2s; }
+        .section:nth-of-type(7) { animation-delay: 1.4s; }
+        .section:nth-of-type(8) { animation-delay: 1.6s; }
+        .section:nth-of-type(9) { animation-delay: 1.8s; }
+
+        .section:hover {
+            transform: translateY(-10px) scale(1.005);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        h2 {
+            color: var(--primary-dark-blue);
+            padding-bottom: 25px;
+            margin-bottom: 45px;
+            font-size: 42px;
+            display: flex;
+            align-items: center;
+            font-family: 'Montserrat', sans-serif;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        h2::after { /* Professional underline effect */
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100px;
+            height: 5px;
+            background: var(--secondary-gold);
+            border-radius: 2.5px;
+            box-shadow: 0 0 10px rgba(255,215,0,0.3);
+            transition: width 0.4s var(--transition-timing);
+        }
+        h2:hover::after {
+            width: 100%;
+        }
+        
+        h2 i {
+            margin-right: 20px;
+            color: white;
+            background: var(--secondary-gold);
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            font-size: 36px;
+            transition: transform var(--transition-duration) var(--transition-timing);
+        }
+        h2 i:hover {
+            transform: rotateZ(10deg) scale(1.1);
+        }
+        
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin: 50px 0;
+        }
+        
+        .detail-card {
+            background: white;
+            border: 1px solid var(--border-subtle);
+            border-radius: 18px;
+            padding: 40px;
+            text-align: center;
+            transition: all var(--transition-duration) var(--transition-timing);
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .detail-card::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(to right, var(--primary-dark-blue), var(--secondary-gold));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform var(--transition-duration) ease-out;
+        }
+        
+        .detail-card:hover {
+            transform: translateY(-10px) scale(1.01);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        .detail-card:hover::after {
+            transform: scaleX(1);
+        }
+        
+        .detail-card h4 {
+            color: var(--primary-dark-blue);
+            margin-bottom: 30px;
+            font-size: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .detail-card h4 i {
+            margin-right: 18px;
+            color: var(--secondary-gold);
+            font-size: 38px;
+            animation: pulse 2s infinite ease-in-out; /* Subtle pulse */
+        }
+        
+        .detail-card p {
+            font-size: 20px;
+            font-weight: 500;
+            color: #003366;
+        }
+        
+        /* Compensation Section Styles */
+        .compensation-section {
+            position: relative;
+            margin: 80px 0;
+            padding: 50px;
+            background: linear-gradient(135deg, #E8F0F8 0%, #F8FBFF 100%);
+            border-radius: 25px;
+            box-shadow: var(--shadow-medium);
+            border: 2px solid var(--border-subtle);
+            overflow: hidden;
+            text-align: center; /* Center content within section */
+        }
+        .compensation-section::before { /* Professional background text */
+            content: 'GROWTH';
+            position: absolute;
+            top: -10px;
+            right: -20px;
+            font-size: 150px;
+            font-weight: 800;
+            color: rgba(0,0,0,0.02);
+            font-family: 'Montserrat', sans-serif;
+            transform: rotate(10deg);
+            z-index: 0;
+        }
+
+        .compensation-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .incentive-bar {
+            display: flex;
+            margin: 50px auto 40px;
+            text-align: center;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            max-width: 900px;
+            border: 2px solid var(--secondary-gold);
+            transform: translateY(0); /* No initial transform */
+            transition: transform var(--transition-duration) var(--transition-timing);
+        }
+        .incentive-bar:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+        
+        .fixed-salary, .incentive {
+            padding: 35px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: background 0.3s ease;
+        }
+
+        .fixed-salary {
+            background: var(--primary-dark-blue);
+            color: white;
+            border-right: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .incentive {
+            background: #002D62;
+            color: white;
+        }
+
+        .fixed-salary:hover, .incentive:hover {
+            background: var(--primary-dark-blue); /* Keep dark blue on hover */
+            background: linear-gradient(135deg, #0A1E46 0%, #00244F 100%);
+        }
+        
+        .plus {
+            background: var(--secondary-gold);
+            color: var(--primary-dark-blue);
+            padding: 35px;
+            font-weight: 700;
+            font-size: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 100px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 0 15px rgba(255,215,0,0.4);
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+        .plus:hover {
+            transform: scale(1.1);
+        }
+        
+        .icon {
+            font-size: 45px;
+            margin-bottom: 20px;
+            color: var(--secondary-gold);
+            transition: transform 0.3s ease;
+        }
+        .fixed-salary:hover .icon, .incentive:hover .icon {
+            transform: scale(1.1);
+        }
+        
+        .salary-label {
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .salary-amount {
+            font-size: 44px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+        }
+        
+        .total-ctc {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary-dark-blue);
+            margin: 40px auto;
+            background: rgba(255, 215, 0, 0.2);
+            padding: 30px 50px;
+            border-radius: 20px;
+            display: inline-block;
+            border: 3px dashed var(--secondary-gold);
+            box-shadow: var(--shadow-soft);
+            animation: pulseSubtle 2.5s infinite ease-in-out; /* More subtle pulse */
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+        
+        /* Job Description and Skills Styles */
+        .job-description, .highlight-box {
+            background: linear-gradient(170deg, #f8faff 0%, #eef3f8 100%);
+            border-radius: 20px;
+            padding: 50px;
+            margin: 70px 0;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            border-left: 8px solid var(--secondary-gold);
+            transition: transform var(--transition-duration) var(--transition-timing);
+        }
+        .job-description:hover, .highlight-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        ul {
+            padding-left: 50px;
+            margin: 35px 0;
+        }
+        
+        li {
+            margin-bottom: 25px;
+            line-height: 1.8;
+            font-size: 20px;
+            position: relative;
+            padding-left: 35px;
+            color: var(--text-dark);
+            transition: color 0.3s ease;
+        }
+        li:hover {
+            color: var(--primary-dark-blue);
+        }
+        
+        li:before {
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 5px;
+            font-size: 20px;
+            color: white;
+            background: var(--primary-dark-blue);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        li:hover:before {
+            background: var(--secondary-gold);
+            color: var(--primary-dark-blue);
+            transform: scale(1.1); /* Subtle scale on hover */
+        }
+        
+        /* Career Path Section Styles - Professional Timeline */
+        .career-path-container {
+            background: linear-gradient(150deg, var(--primary-dark-blue) 0%, #001A33 100%);
+            padding: 70px 50px;
+            border-radius: 25px;
+            margin: 90px 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-medium);
+            border: 2px solid var(--secondary-gold);
+        }
+        
+        .career-path-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+            opacity: 0.1;
+            filter: grayscale(100%) brightness(0.7);
+        }
+        
+        .career-path-title {
+            position: relative;
+            z-index: 2;
+            color: white;
+            text-align: center;
+            margin-bottom: 70px;
+            font-size: 50px;
+            font-family: 'Montserrat', sans-serif;
+            text-shadow: 0 3px 10px rgba(0,0,0,0.5);
+        }
+        
+        .career-path-title i {
+            color: var(--secondary-gold);
+            margin-right: 20px;
+            font-size: 44px;
+            animation: none; /* Removed continuous rotation for professionalism */
+            transition: transform 0.3s ease;
+        }
+        .career-path-title i:hover {
+            transform: rotateY(360deg); /* Simple spin on hover */
+        }
+        
+        .career-path {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        /* Timeline connector line */
+        .career-path::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--secondary-gold), var(--primary-dark-blue));
+            z-index: 1;
+            transform: translateY(-50%) scaleX(0);
+            transform-origin: left;
+            animation: drawLine 2s var(--transition-timing) forwards;
+            box-shadow: 0 0 15px rgba(255,215,0,0.4);
+        }
+        
+        .path-step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            flex: 1 1 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.08); /* Slightly transparent background */
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            backdrop-filter: blur(4px); /* Subtle blur */
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all var(--transition-duration) var(--transition-timing);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s var(--transition-timing) forwards; /* Simple fade in */
+        }
+        /* Individual delays for path steps */
+        .path-step:nth-of-type(1) { animation-delay: 1.0s; }
+        .path-step:nth-of-type(2) { animation-delay: 1.2s; }
+        .path-step:nth-of-type(3) { animation-delay: 1.4s; }
+        .path-step:nth-of-type(4) { animation-delay: 1.6s; }
+
+        .path-step:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            background: rgba(255,255,255,0.15);
+        }
+        
+        .step-circle {
+            width: 120px;
+            height: 120px;
+            background: var(--secondary-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-dark-blue);
+            font-weight: 800;
+            font-size: 28px;
+            margin-bottom: 35px;
+            border: 5px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            overflow: hidden;
+            transition: transform var(--transition-duration) var(--transition-timing);
+        }
+        .step-circle span {
+            position: relative;
+            z-index: 1;
+            color: white;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.7);
+        }
+
+        .step-circle::after { /* Darker overlay for text readability */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.4);
+            transition: background-color var(--transition-duration) ease;
+        }
+        .step-circle:hover::after {
+            background-color: rgba(0, 0, 0, 0.1); /* Lighter overlay on hover */
+        }
+        .step-circle:hover {
+            transform: scale(1.08);
+        }
+        
+        /* Specific background images for career steps */
+        .step-circle.rm { background-image: url('https://images.unsplash.com/photo-1596736465352-78a7f722e038?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=60'); }
+        .step-circle.tl { background-image: url('https://images.unsplash.com/photo-1597034789547-0e6e7d6b3b2c?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=60'); } /* Updated image for Team Leader */
+        .step-circle.manager { background-image: url('https://images.unsplash.com/photo-1559136555-9303baea8eb8?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=60'); }
+        .step-circle.sales-head { background-image: url('https://images.unsplash.com/photo-1579532537596-fdd285a259d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=60'); } /* Updated image for Sales Head */
+
+        .step-title {
+            font-weight: 600;
+            color: var(--text-light);
+            background: rgba(10, 30, 70, 0.85);
+            padding: 18px 35px;
+            border-radius: 40px;
+            display: inline-block;
+            font-size: 20px;
+            font-family: 'Montserrat', sans-serif;
+            margin-top: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            transition: all var(--transition-duration) var(--transition-timing);
+        }
+        .step-highlight .step-title {
+            background: var(--secondary-gold);
+            color: var(--primary-dark-blue);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+        }
+        .step-title:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, var(--secondary-gold), #FFC700);
+            color: var(--primary-dark-blue);
+        }
+        
+        /* CTA Section Styles */
+        .cta-section {
+            text-align: center;
+            padding: 70px;
+            background: linear-gradient(160deg, var(--primary-dark-blue) 0%, #001A3D 100%); /* Slightly richer gradient */
+            color: var(--text-light);
+            border-radius: 25px;
+            margin: 90px 0 70px;
+            box-shadow: var(--shadow-medium);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid var(--secondary-gold);
+        }
+        
+        .cta-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1543286341-a1e1279a0e69?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+            opacity: 0.15;
+            filter: saturate(0) brightness(0.7);
+            animation: backgroundParallax 15s infinite alternate ease-in-out;
+        }
+        
+        .cta-section h2 {
+            border: none;
+            justify-content: center;
+            color: white;
+            font-size: 50px;
+            margin-bottom: 50px;
+            text-shadow: 0 3px 10px rgba(0,0,0,0.6);
+            position: relative;
+            z-index: 2;
+        }
+        .cta-section h2 i {
+            color: var(--secondary-gold);
+            background: transparent;
+            box-shadow: none;
+            font-size: 44px;
+            transition: transform 0.4s ease;
+        }
+        .cta-section h2 i:hover {
+            transform: rotateY(360deg) scale(1.1);
+        }
+        
+        .contact-info {
+            background: rgba(255, 215, 0, 0.2); /* Softer transparent gold */
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            padding: 45px;
+            border-radius: 20px;
+            margin: 40px auto;
+            font-weight: 600;
+            font-size: 26px;
+            color: var(--primary-dark-blue);
+            line-height: 1.8;
+            position: relative;
+            z-index: 2;
+            box-shadow: var(--shadow-soft);
+            max-width: 650px;
+            backdrop-filter: blur(6px); /* Subtle blur */
+        }
+        
+        .contact-info strong {
+            color: var(--primary-dark-blue);
+            font-weight: 700;
+            background: rgba(255, 215, 0, 0.4);
+            padding: 10px 25px;
+            border-radius: 12px;
+            display: inline-block;
+            margin: 5px 0;
+        }
+        
+        /* New styling for WhatsApp button functionality */
+        .whatsapp-contact-link {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            color: inherit; /* Inherit color from parent (.contact-info) */
+            transition: color 0.3s ease;
+        }
+        .whatsapp-contact-link:hover {
+            color: var(--primary-dark-blue); /* Dark blue on hover for professional touch */
+        }
+
+        .whatsapp-contact-link i {
+            margin-right: 18px; /* Maintain spacing */
+            font-size: 32px;
+            color: #25D366; /* Keep WhatsApp green for icon */
+        }
+
+        .whatsapp-button {
+            display: inline-flex;
+            align-items: center;
+            background: #25D366;
+            color: white;
+            padding: 22px 50px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 26px;
+            text-decoration: none;
+            margin-top: 35px;
+            box-shadow: 0 15px 40px rgba(37, 211, 102, 0.4);
+            transition: all var(--transition-duration) var(--transition-timing);
+            border: 3px solid #25D366;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+        
+        .whatsapp-button:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 20px 50px rgba(37, 211, 102, 0.5);
+            background: #20b85a;
+            border-color: white;
+        }
+        
+        .whatsapp-button i {
+            margin-right: 18px;
+            font-size: 32px;
+        }
+        
+        /* LLM Feature Styling */
+        .llm-feature {
+            text-align: center;
+            margin-top: 50px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            border: 2px dashed var(--secondary-gold);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .llm-feature button {
+            background: var(--primary-dark-blue);
+            color: white;
+            padding: 18px 40px;
+            border-radius: 30px;
+            border: none;
+            font-size: 22px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .llm-feature button:hover {
+            background: #00244F;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+        }
+
+        .llm-feature button i {
+            margin-right: 12px;
+            font-size: 24px;
+        }
+
+        .llm-response {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: left;
+            min-height: 100px; /* Ensure space for content */
+            border: 1px solid var(--border-subtle);
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+            font-size: 18px;
+            color: var(--text-dark);
+            line-height: 1.6;
+            white-space: pre-wrap; /* Preserve whitespace and line breaks */
+            overflow-wrap: break-word; /* Ensure long words break */
+        }
+
+        .llm-response.loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-style: italic;
+            color: #777;
+        }
+        .llm-response.loading::before {
+            content: '';
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-dark-blue);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin-right: 15px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Footer Styles */
+        footer {
+            text-align: center;
+            padding: 50px;
+            background: var(--primary-dark-blue);
+            color: var(--text-light);
+            font-size: 17px; /* Smaller font size */
+            border-top: 5px solid var(--secondary-gold);
+            position: relative;
+            overflow: hidden;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+        }
+
+        footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 300%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1579532537596-fdd285a259d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=60') repeat-x;
+            background-size: cover;
+            opacity: 0.15;
+            animation: scrollBackground 120s linear infinite;
+            filter: grayscale(90%) brightness(0.6);
+        }
+        
+        footer p {
+            position: relative;
+            z-index: 1;
+            font-weight: 400; /* Lighter weight for smaller text */
+        }
+
+        .website-link {
+            color: var(--secondary-gold);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.6);
+            transition: all 0.3s ease;
+            font-weight: 500;
+            text-shadow: none;
+        }
+        
+        .website-link:hover {
+            color: white;
+            border-bottom-color: white;
+        }
+        
+        /* Location Section Styles */
+        .location-section {
+            background: linear-gradient(135deg, white 0%, #f0f4f8 100%);
+            border-radius: 20px;
+            padding: 45px;
+            margin: 70px 0;
+            box-shadow: var(--shadow-soft);
+            border-left: 8px solid var(--secondary-gold);
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            transition: transform var(--transition-duration) var(--transition-timing);
+        }
+        .location-section:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .location-icon {
+            background: var(--primary-dark-blue);
+            color: var(--secondary-gold);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 45px;
+            flex-shrink: 0;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+            transition: transform var(--transition-duration) var(--transition-timing);
+        }
+        .location-icon:hover {
+            transform: rotateZ(-10deg) scale(1.1);
+        }
+        
+        .location-details h3 {
+            color: var(--primary-dark-blue);
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .location-details p {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+        
+        .location-link {
+            display: inline-block;
+            background: var(--primary-dark-blue);
+            color: white;
+            padding: 18px 35px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all var(--transition-duration) var(--transition-timing);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .location-link:hover {
+            background: #00244F;
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+        }
+
+        /* TradingView Widget Containers */
+        .tradingview-widget-container {
+            margin: 30px auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            border: 2px solid var(--border-subtle);
+        }
+
+        .tradingview-widget-container__widget {
+            border-radius: 20px;
+        }
+        
+        /* Keyframe Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes pulseSubtle {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.015); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes drawLine {
+            0% { transform: translateY(-50%) scaleX(0); opacity: 0; }
+            100% { transform: translateY(-50%) scaleX(1); opacity: 1; }
+        }
+        
+        @keyframes backgroundParallax {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 50% 50%; } /* Slower, more subtle parallax */
+        }
+        @keyframes scrollBackground {
+            from { background-position: 0 0; }
+            to { background-position: -100% 0; }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            body { padding: 15px; }
+            .container { border-radius: 15px; }
+            .header-banner { padding: 60px 30px; }
+            .logo { font-size: 60px; letter-spacing: 1.5px; }
+            .tagline { font-size: 22px; padding: 12px 30px; }
+            .position-badge { font-size: 30px; padding: 18px 45px; }
+            .main-content { padding: 40px; }
+            .section { margin-bottom: 60px; padding: 30px; }
+            h2 { font-size: 36px; margin-bottom: 35px; }
+            h2 i { width: 55px; height: 55px; font-size: 30px; margin-right: 18px;}
+            h2::after { width: 100%; animation: none; }
+            .details-grid { gap: 30px; }
+            .detail-card { padding: 35px; }
+            .detail-card h4 { font-size: 22px; margin-bottom: 25px;}
+            .detail-card h4 i { font-size: 34px; margin-right: 15px;}
+            .detail-card p { font-size: 19px;}
+            .compensation-section { padding: 40px; }
+            .compensation-section::before { font-size: 100px; }
+            .incentive-bar { flex-direction: column; max-width: 600px; }
+            .fixed-salary, .incentive { padding: 30px; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.2); }
+            .incentive:last-child { border-bottom: none; }
+            .plus { padding: 30px; min-width: unset; width: 100%; border-radius: 0; }
+            .salary-label { font-size: 20px;}
+            .salary-amount { font-size: 38px; }
+            .total-ctc { font-size: 28px; padding: 25px 45px; }
+            .job-description, .highlight-box { padding: 40px; }
+            ul { padding-left: 40px; }
+            li { font-size: 18px; padding-left: 35px; margin-bottom: 20px;}
+            li:before { font-size: 18px; width: 28px; height: 28px;}
+            .career-path-container { padding: 60px 40px; }
+            .career-path-title { font-size: 42px; margin-bottom: 60px;}
+            .career-path-title i { font-size: 38px;}
+            .career-path { flex-direction: column; gap: 30px; }
+            .career-path::before { /* Vertical timeline for mobile */
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 50%;
+                width: 4px;
+                height: 100%;
+                background: linear-gradient(to bottom, var(--secondary-gold), var(--primary-dark-blue));
+                z-index: 1;
+                transform: translateX(-50%) scaleY(0);
+                transform-origin: top;
+                animation: drawLineVertical 2s var(--transition-timing) forwards;
+                box-shadow: 0 0 15px rgba(255,215,0,0.4);
+            }
+            .path-step {
+                width: 90%;
+                flex-direction: row; /* Horizontal layout for step content */
+                text-align: left;
+                align-items: center;
+                gap: 20px;
+                padding: 20px;
+            }
+            .step-circle { margin-bottom: 0; flex-shrink: 0; width: 100px; height: 100px; font-size: 24px;}
+            .step-title { margin-top: 0; font-size: 18px; padding: 15px 30px;}
+            .location-section { padding: 35px; flex-direction: column; text-align: center; gap: 25px; }
+            .location-icon { width: 90px; height: 90px; font-size: 40px;}
+            .location-details h3 { font-size: 24px;}
+            .location-details p { font-size: 19px;}
+            .location-link { font-size: 18px; padding: 15px 30px;}
+            .cta-section { padding: 60px; }
+            .cta-section h2 { font-size: 42px; margin-bottom: 45px;}
+            .cta-section h2 i { font-size: 38px;}
+            .contact-info { font-size: 22px; padding: 35px; max-width: 90%; }
+            .whatsapp-button { font-size: 22px; padding: 18px 45px; }
+            footer { padding: 40px; font-size: 16px; }
+            .tradingview-widget-container { margin: 25px auto; }
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { border-radius: 10px; }
+            .header-banner { padding: 50px 20px; }
+            .logo { font-size: 50px; letter-spacing: 1px; }
+            .tagline { font-size: 20px; padding: 10px 25px; }
+            .position-badge { font-size: 28px; padding: 15px 40px; }
+            .main-content { padding: 25px; }
+            .section { margin-bottom: 50px; padding: 25px; }
+            h2 { font-size: 32px; margin-bottom: 30px; }
+            h2 i { width: 45px; height: 45px; font-size: 26px; margin-right: 12px;}
+            .details-grid { gap: 20px; grid-template-columns: 1fr; }
+            .detail-card { padding: 30px; }
+            .detail-card h4 { font-size: 20px; margin-bottom: 20px;}
+            .detail-card h4 i { font-size: 30px; margin-right: 12px;}
+            .detail-card p { font-size: 17px;}
+            .compensation-section { padding: 30px; }
+            .compensation-section::before { font-size: 70px; }
+            .fixed-salary, .incentive { padding: 25px; }
+            .plus { padding: 25px; }
+            .salary-label { font-size: 17px; }
+            .salary-amount { font-size: 32px; }
+            .total-ctc { font-size: 24px; padding: 20px 35px; }
+            .job-description, .highlight-box { padding: 30px; }
+            ul { padding-left: 35px; }
+            li { font-size: 17px; padding-left: 30px; margin-bottom: 18px;}
+            li:before { font-size: 16px; width: 25px; height: 25px; top: 3px;}
+            .career-path-container { padding: 50px 30px; }
+            .career-path-title { font-size: 36px; margin-bottom: 45px;}
+            .career-path-title i { font-size: 32px;}
+            .path-step { gap: 15px; padding: 15px;}
+            .step-circle { width: 90px; height: 90px; font-size: 22px;}
+            .step-title { font-size: 16px; padding: 12px 25px;}
+            .location-section { padding: 30px; }
+            .location-icon { width: 80px; height: 80px; font-size: 36px;}
+            .location-details h3 { font-size: 20px;}
+            .location-details p { font-size: 16px;}
+            .location-link { font-size: 16px; padding: 12px 25px;}
+            .cta-section { padding: 40px; }
+            .cta-section h2 { font-size: 38px; margin-bottom: 35px;}
+            .cta-section h2 i { font-size: 34px;}
+            .contact-info { font-size: 18px; padding: 30px;}
+            .whatsapp-button { font-size: 18px; padding: 15px 35px; }
+            footer { padding: 30px; font-size: 15px; }
+        }
+
+        /* Animation for vertical line on mobile */
+        @keyframes drawLineVertical {
+            0% { transform: translateX(-50%) scaleY(0); opacity: 0; }
+            100% { transform: translateX(-50%) scaleY(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-banner">
+            <div class="logo-section">
+                <div class="logo">ONEPAPER</div>
+            </div>
+            <div class="tagline">SEBI Certified Research Analyst</div>
+            <div class="position-badge">
+                <i class="fas fa-briefcase"></i> Relationship Manager
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <!-- About OnePaper Section (Moved to top) -->
+            <div class="section">
+                <h2><i class="fas fa-building"></i> About OnePaper</h2>
+                <p style="font-size: 20px; line-height: 1.8; margin-bottom: 30px; color: var(--text-dark);">
+                    Founded in <strong>2020</strong>, OnePaper is an independent, privately-owned research and advisory firm in the financial services sector. We're recognized for our commitment to integrity, strategic partnerships, and exceptional service delivery that drives client success.
+                </p>
+                <p style="font-size: 20px; font-weight: 600; color: var(--text-dark);">
+                    <i class="fas fa-globe"></i> <a href="https://www.onepaper.in" class="website-link">www.onepaper.in</a>
+                </p>
+            </div>
+
+            <!-- TradingView Ticker Tape for all Markets -->
+            <div class="section">
+                <h2><i class="fas fa-chart-line"></i> Market Snapshot</h2>
+                <div class="tradingview-widget-container" style="height:70px;">
+                    <div class="tradingview-widget-container__widget"></div>
+                    <div class="tradingview-widget-copyright">
+                        <a href="https://in.tradingview.com/" rel="noopener nofollow" target="_blank">
+                            <span class="blue-text">Live market data by TradingView</span>
+                        </a>
+                    </div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+                    {
+                        "symbols": [
+                            {
+                                "proName": "FOREXCOM:SPXUSD",
+                                "title": "S&P 500"
+                            },
+                            {
+                                "proName": "FOREXCOM:NSXUSD",
+                                "title": "Nasdaq 100"
+                            },
+                            {
+                                "proName": "FX_IDC:EURUSD",
+                                "title": "EUR/USD"
+                            },
+                            {
+                                "proName": "BITSTAMP:BTCUSD",
+                                "title": "BTC/USD"
+                            },
+                            {
+                                "proName": "BITSTAMP:ETHUSD",
+                                "title": "ETH/USD"
+                            },
+                            {
+                                "description": "Nifty 50",
+                                "proName": "NSE:NIFTY"
+                            },
+                            {
+                                "description": "Sensex",
+                                "proName": "BSE:SENSEX"
+                            },
+                            {
+                                "description": "Bank Nifty",
+                                "proName": "NSE:BANKNIFTY"
+                            },
+                            {
+                                "description": "Nifty IT",
+                                "proName": "NSE:NIFTY_IT"
+                            },
+                            {
+                                "proName": "FX_IDC:USDINR",
+                                "title": "USD/INR"
+                            },
+                            {
+                                "proName": "COMEX:GC1!",
+                                "title": "Gold"
+                            },
+                            {
+                                "proName": "NYMEX:CL1!",
+                                "title": "Crude Oil"
+                            },
+                            {
+                                "proName": "ICEEU:BRN1!",
+                                "title": "Brent Crude"
+                            }
+                        ],
+                        "showSymbolLogo": true,
+                        "colorTheme": "light",
+                        "isTransparent": false,
+                        "displayMode": "regular",
+                        "locale": "in",
+                        "largeChartUrl": "https://www.onepaper.in"
+                    }
+                    </script>
+                </div>
+            </div>
+
+            <!-- TradingView Real-time BSE Sensex Chart -->
+            <div class="section">
+                <h2><i class="fas fa-chart-area"></i> Live Sensex Chart</h2>
+                <div class="tradingview-widget-container" style="height:450px; width:100%;">
+                    <div id="tradingview_bse_chart"></div>
+                    <div class="tradingview-widget-copyright"><a href="https://in.tradingview.com/symbols/BSE-SENSEX/" rel="noopener nofollow" target="_blank"><span class="blue-text">SENSEX Chart</span></a> by TradingView</div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                    <script type="text/javascript">
+                    new TradingView.widget(
+                    {
+                        "width": "100%",
+                        "height": 450,
+                        "symbol": "BSE:SENSEX",
+                        "interval": "D",
+                        "timezone": "Asia/Kolkata",
+                        "theme": "light",
+                        "style": "1",
+                        "locale": "in",
+                        "toolbar_bg": "#f1f3f6",
+                        "enable_publishing": false,
+                        "allow_symbol_change": true,
+                        "container_id": "tradingview_bse_chart",
+                        "range": "3M", /* Default range to 3 months */
+                        "withdateranges": true
+                    }
+                    );
+                    </script>
+                </div>
+            </div>
+            
+            <div class="compensation-section">
+                <div class="compensation-content">
+                    <h2><i class="fas fa-money-bill-wave"></i> Compensation Package</h2>
+                    <div class="incentive-bar">
+                        <div class="fixed-salary">
+                            <div class="icon">₹</div>
+                            <div class="salary-label">Fixed Salary</div>
+                            <div class="salary-amount">₹20,000</div>
+                        </div>
+                        <div class="plus">+</div>
+                        <div class="incentive">
+                            <div class="icon">🚀</div>
+                            <div class="salary-label">Performance Incentives</div>
+                            <div class="salary-amount">Up to ₹21,000</div>
+                        </div>
+                    </div>
+                    <div class="total-ctc">Total CTC: ₹4.92 LPA</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-info-circle"></i> Position Details</h2>
+                <div class="details-grid">
+                    <div class="detail-card">
+                        <h4><i class="fas fa-user-tie"></i> Role</h4>
+                        <p>Relationship Manager</p>
+                    </div>
+                    <div class="detail-card">
+                        <h4><i class="fas fa-clock"></i> Shift Timing</h4>
+                        <p>9:00 AM – 6:00 PM</p>
+                    </div>
+                    <div class="detail-card">
+                        <h4><i class="fas fa-calendar-alt"></i> Joining</h4>
+                        <p>Immediate</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="location-section">
+                <div class="location-icon">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <div class="location-details">
+                    <h3>Our Office Location</h3>
+                    <p>JP Nagar 2nd Phase, Bangalore 560078</p>
+                    <a href="https://maps.app.goo.gl/AvSCPryMM1MWafiK8" class="location-link" target="_blank">
+                        <i class="fas fa-map-marker-alt"></i> View on Google Maps
+                    </a>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-tasks"></i> Key Responsibilities</h2>
+                <ul>
+                    <li>Proactively engage with potential clients via calls to generate interest</li>
+                    <li>Understand client needs and drive conversions through consultative selling</li>
+                    <li>Upsell premium services to existing customers to maximize revenue</li>
+                    <li>Build and maintain long-term customer relationships with regular market insights</li>
+                    <li>Maintain accurate records of client interactions in CRM systems</li>
+                    <li>Collaborate with marketing and research teams to improve sales strategy</li>
+                    <li>Consistently meet and exceed monthly sales targets and KPIs</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-star"></i> Required Skills</h2>
+                <div class="highlight-box">
+                    <ul>
+                        <li>Excellent communication in English and fluency in either two regional languages or Hindi</li>
+                        <li>Ability to perform under pressure and meet targets</li>
+                        <li>Strong customer orientation with attention to detail</li>
+                        <li>Creative problem-solving and a proactive approach</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="career-path-container">
+                <h2 class="career-path-title"><i class="fas fa-chart-line"></i> Career Growth Path</h2>
+                <div class="career-path">
+                    <div class="path-step">
+                        <div class="step-circle rm"><span>1</span></div>
+                        <div class="step-title">Relationship Manager</div>
+                    </div>
+                    
+                    <div class="path-step">
+                        <div class="step-circle tl"><span>2</span></div> <!-- Changed class to 'tl' for Team Leader -->
+                        <div class="step-title">Team Leader</div> <!-- Changed title to Team Leader -->
+                    </div>
+                    
+                    <div class="path-step">
+                        <div class="step-circle manager"><span>3</span></div>
+                        <div class="step-title">Manager</div>
+                    </div>
+                    
+                    <div class="path-step">
+                        <div class="step-circle sales-head"><span>4</span></div> <!-- Changed class to 'sales-head' for Sales Head -->
+                        <div class="step-title">Sales Head</div> <!-- Changed title to Sales Head -->
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 50px; font-size: 20px; font-style: italic; color: var(--secondary-gold); position: relative; z-index: 2; text-shadow: 0 1px 3px rgba(0,0,0,0.5);">
+                    "At OnePaper, we believe in recognizing talent and providing accelerated career progression for high performers."
+                </p>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-rocket"></i> Why Join OnePaper?</h2>
+                <div class="details-grid">
+                    <div class="detail-card">
+                        <h4><i class="fas fa-graduation-cap"></i> Professional Training</h4>
+                        <p>Comprehensive market education from NISM-certified analysts</p>
+                    </div>
+                    <div class="detail-card">
+                        <h4><i class="fas fa-bolt"></i> Energetic Environment</h4>
+                        <p>Dynamic workspace with passionate professionals</p>
+                    </div>
+                    <div class="detail-card">
+                        <h4><i class="fas fa-trophy"></i> Top Incentives</h4>
+                        <p>Industry-leading rewards for high performers</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-graduation-cap"></i> Eligibility</h2>
+                <ul>
+                    <li>Graduate or Postgraduate in any discipline</li>
+                    <li>Fresh graduates are welcome if you have a strong learning attitude</li>
+                    <li>Immediate joining required</li>
+                </ul>
+            </div>
+            
+            <div class="cta-section">
+                <h2><i class="fas fa-paper-plane"></i> Ready to Join Our Team?</h2>
+                <div class="contact-info">
+                    <p>Send your resume to:</p>
+                    <p><strong>rajen.patwari@onepaper.in</strong> or <strong>hr@onepaper.in</strong></p>
+                    <p style="margin-top: 30px;">
+                        <!-- WhatsApp icon and number as a direct hyperlink for WhatsApp chat with pre-filled message -->
+                        <a href="https://wa.me/918086981567?text=Hi%20OnePaper%20Team,%20I'm%20interested%20in%20the%20Relationship%20Manager%20position" 
+                           class="whatsapp-contact-link" 
+                           target="_blank">
+                            <i class="fab fa-whatsapp"></i> WhatsApp: <strong>+91 8086981567</strong>
+                        </a>
+                    </p>
+                </div>
+                <!-- Removed the "Message Us on WhatsApp" button as requested -->
+            </div>
+        </div>
+        
+        <footer>
+            <p>OnePaper Research Analysts Private Limited | <a href="https://www.onepaper.in" class="website-link">www.onepaper.in</a></p>
+            <p style="margin-top: 10px;">Made by Rajen Patwari</p>
+        </footer>
+    </div>
+</body>
+</html>
